@@ -29,9 +29,9 @@ public class GestorEstudiantes {
                     case 1:
                         anadirEstudiante();
                         break;
-//                    case 2:
-//                        listarEstudiantes();
-//                        break;
+                    case 2:
+                      listarEstudiantes();
+                        break;
 //                    case 3:
 //                        buscarEstudiante();
 //                        break;
@@ -86,8 +86,8 @@ public class GestorEstudiantes {
         double nota = pedirNota();
         boolean matriculado = pedirMatriculado();
 
-        Estudiante e = new Estudiante(nombre, edad, dni, nota, matriculado);
-        listaEstudiantes.add(e);
+        Estudiante estudiante = new Estudiante(nombre, edad, dni, nota, matriculado);
+        listaEstudiantes.add(estudiante);
         System.out.println("Estudiante añadido correctamente.");
 
 
@@ -230,7 +230,16 @@ public class GestorEstudiantes {
         return matriculado;
     }
 
-
+    private static void listarEstudiantes() {
+        if (listaEstudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+        } else {
+            System.out.println("\n=== Lista de estudiantes ===");
+            for (Estudiante e : listaEstudiantes) {
+                System.out.println(e);
+            }
+        }
+    }
 
 }
 
