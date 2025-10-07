@@ -38,9 +38,9 @@ public class GestorEstudiantes {
                     case 4:
                         calcularMedia();
                         break;
-//                    case 5:
-//                        mostrarMejorEstudiante();
-//                        break;
+                    case 5:
+                        mostrarMejorEstudiante();
+                        break;
                     case 6:
                         System.out.println("Saliendo del programa...");
                         break;
@@ -271,10 +271,44 @@ public class GestorEstudiantes {
         }
 
         media = suma / listaEstudiantes.size();
-        System.out.println("\n===== Nota Media General=====\n");
+        System.out.println("\n==== Nota Media General ====");
         System.out.println("\n La media de las notas es: " + media + "\n");
     }
 
+    private static void mostrarMejorEstudiante(){
+        ArrayList<Estudiante> mejoresEstudiantes = new ArrayList<>();
+        Estudiante mejorEstudiante;
+        double mejorNota = listaEstudiantes.getFirst().getNotaMedia();
+
+        if (listaEstudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+            return;
+        }
+
+
+        mejoresEstudiantes.add(listaEstudiantes.getFirst());
+
+        for (int i = 1; i < listaEstudiantes.size(); i++) {
+            Estudiante e = listaEstudiantes.get(i);
+            double nota = e.getNotaMedia();
+
+            if (nota > mejorNota) {
+
+                mejorNota = nota;
+                mejoresEstudiantes.clear();
+                mejoresEstudiantes.add(e);
+
+            } else if (nota == mejorNota) {
+                mejoresEstudiantes.add(e);
+            }
+        }
+
+        System.out.println("\n==== Mejor Nota ====");
+        System.out.println("El estudiante con mejor nota es: ");
+        for (Estudiante e : mejoresEstudiantes) {
+            System.out.println(e);
+        }
+    }
 }
 
 
