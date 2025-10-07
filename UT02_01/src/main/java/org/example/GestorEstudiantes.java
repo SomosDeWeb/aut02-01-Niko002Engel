@@ -32,9 +32,9 @@ public class GestorEstudiantes {
                     case 2:
                       listarEstudiantes();
                         break;
-//                    case 3:
-//                        buscarEstudiante();
-//                        break;
+                    case 3:
+                        buscarEstudiante();
+                        break;
                     case 4:
                         calcularMedia();
                         break;
@@ -87,6 +87,13 @@ public class GestorEstudiantes {
         int edad = pedirEdad();
         double nota = pedirNota();
         boolean matriculado = pedirMatriculado();
+
+        for (Estudiante e : listaEstudiantes) {
+            if (e.getDni().toUpperCase().equals(dni)) {
+                System.out.println("Ya existe un estudiante con este DNI");
+                dni = pedirDni();
+            }
+        }
 
         Estudiante estudiante = new Estudiante(nombre, edad, dni, nota, matriculado);
         listaEstudiantes.add(estudiante);
@@ -206,11 +213,11 @@ public class GestorEstudiantes {
                     throw new RuntimeException("La letra del DNI es incorrecta. Debería ser " + letraCalculada);
                 }
 
-                for (Estudiante e : listaEstudiantes) {
-                    if (e.getDni().toUpperCase().equals(dniString)) {
-                        throw new RuntimeException("Ya existe un estudiante con este DNI");
-                    }
-                }
+//                for (Estudiante e : listaEstudiantes) {
+//                    if (e.getDni().toUpperCase().equals(dniString)) {
+//                        throw new RuntimeException("Ya existe un estudiante con este DNI");
+//                    }
+//                }
 
                 isValid = true;
 
@@ -307,6 +314,26 @@ public class GestorEstudiantes {
         System.out.println("El estudiante con mejor nota es: ");
         for (Estudiante e : mejoresEstudiantes) {
             System.out.println(e);
+        }
+    }
+
+    private static void buscarEstudiante(){
+        System.out.println("\n==== Buscar Estudiante ====");
+        System.out.print("Ingrese el DNI del estudiante a buscar: ");
+        String dniString = pedirDni();
+        boolean encontrado = false;
+
+        for(Estudiante e : listaEstudiantes){
+            if(e.getDni().toUpperCase().equals(dniString)){
+                System.out.println("Estudiante encontrado: ");
+                System.out.println(e);
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado){
+            System.out.println("No se encontró un estudiante con ese DNI");
         }
     }
 }
