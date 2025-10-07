@@ -31,7 +31,7 @@ public class Estudiante{
     }
 
     //----DNI----
-    public String getDni(){ return dni.toString();}
+    public String getDni(){ return dni.toString(); }
 
     public void setDni(String dniString ){ //Character l, long n
         char l;
@@ -43,39 +43,42 @@ public class Estudiante{
 //        } else {
 //            this.dni = new Dni(l, n);
 //        }
-
-        if (dniString == null || dniString.trim().isEmpty()) {
-            throw new RuntimeException("DNI vacío");
-        }
-
-        dniString = dniString.trim().toUpperCase();
-
-        if (dniString.length() < 2) {
-            throw new RuntimeException("Formato de DNI incorrecto");
-        }
-
-        //Verificar la letra
-        l = dniString.charAt(dniString.length() - 1);
-        if(Character.isLetter(1)){
-            throw new RuntimeException("La ultima posición debe incluir una letra");
-        }
-
-        String numeroString = dniString.substring(0, dniString.length() - 1);
-
-        //Verificar el numero
         try {
-            n = Long.parseLong(numeroString);
-        } catch (NumberFormatException e) {
-            throw new RuntimeException("La parte numérica del DNI no es válida");
-        }
+            if (dniString == null || dniString.trim().isEmpty()) {
+                throw new RuntimeException("DNI vacío");
+            }
 
-        //verificar rango
-        if (n < 1000000 || n > 99999999) {
-            throw new RuntimeException("El número del DNI debe tener entre 7 y 8 cifras");
-        }
+            dniString = dniString.trim().toUpperCase();
 
-        this.dni = new Dni(l, n);
+            if (dniString.length() < 2) {
+                throw new RuntimeException("Formato de DNI incorrecto");
+            }
+
+            //Verificar la letra
+            l = dniString.charAt(dniString.length() - 1);
+            if (Character.isLetter(1)) {
+                throw new RuntimeException("La ultima posición debe incluir una letra");
+            }
+
+            String numeroString = dniString.substring(0, dniString.length() - 1);
+
+            //Verificar el numero
+            try {
+                n = Long.parseLong(numeroString);
+            } catch (NumberFormatException e) {
+                throw new RuntimeException("La parte numérica del DNI no es válida");
+            }
+
+            //verificar rango
+            if (n < 1000000 || n > 99999999) {
+                throw new RuntimeException("El número del DNI debe tener entre 7 y 8 cifras");
+            }
+
+            this.dni = new Dni(l, n);
+
+        } catch (RuntimeException e){ System.out.println(e.getMessage());}
     }
+
 
     //----EDAD----
     public int getEdad(){return this.edad;}

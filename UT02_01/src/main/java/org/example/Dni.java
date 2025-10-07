@@ -17,7 +17,7 @@ public class Dni {
         lDni = l;
     }
 
-    private char letraValida(long n) {
+    public static char letraValida(long n) {
         String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
         int resto = (int) (n % 23);
         return letras.charAt(resto);

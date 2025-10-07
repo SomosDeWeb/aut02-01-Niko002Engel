@@ -35,21 +35,23 @@ public class GestorEstudiantes {
 //                    case 3:
 //                        buscarEstudiante();
 //                        break;
-//                    case 4:
-//                        calcularMedia();
-//                        break;
+                    case 4:
+                        calcularMedia();
+                        break;
 //                    case 5:
 //                        mostrarMejorEstudiante();
 //                        break;
-//                    case 6:
-//                        System.out.println("Saliendo del programa...");
-//                        break;
+                    case 6:
+                        System.out.println("Saliendo del programa...");
+                        break;
                     default:
                         System.out.println("Opción no válida. Intente nuevamente.");
                 }
                 System.out.println();
+
             } while (opcion != 6);
-        }catch(Exception e){}
+
+        }catch(Exception e){ System.out.println(e.getMessage());}
     }
 
     private static int leerNumEntero() {
@@ -60,7 +62,7 @@ public class GestorEstudiantes {
                 num = Integer.parseInt(sc.nextLine());
                 return num;
             }catch (NumberFormatException e){
-                System.out.println("Error. Introduce un número entero: ");
+                System.out.println("Introduce un número entero: ");
             }
         }
     }
@@ -74,7 +76,7 @@ public class GestorEstudiantes {
                 return num;
 
             }catch (NumberFormatException e) {
-                System.out.println("Error. Introduce un número decimal: ");
+                System.out.println("Introduce un número decimal: ");
             }
         }
     }
@@ -89,7 +91,6 @@ public class GestorEstudiantes {
         Estudiante estudiante = new Estudiante(nombre, edad, dni, nota, matriculado);
         listaEstudiantes.add(estudiante);
         System.out.println("Estudiante añadido correctamente.");
-
 
     }
 
@@ -123,8 +124,8 @@ public class GestorEstudiantes {
     private static int pedirEdad(){
         int edad = -1;
 
-        try{
-            do {
+        do {
+            try{
                 System.out.print("Introduce Edad:");
                 edad = leerNumEntero();
 
@@ -132,8 +133,9 @@ public class GestorEstudiantes {
                     throw new RuntimeException("Edad no válida");
                 }
 
-            } while(edad < 0 || edad > 150);
-        }catch (RuntimeException e){ System.out.println(e.getMessage());}
+            }catch (RuntimeException e){ System.out.println(e.getMessage());}
+
+        } while(edad < 0 || edad > 150);
 
         return edad;
     }
@@ -141,8 +143,8 @@ public class GestorEstudiantes {
     private static double pedirNota(){
         double nota = -1.0;
 
-        try{
-            do {
+        do {
+            try{
                 System.out.print("Introduce Nota:");
                 nota = leerNumDouble();
 
@@ -150,8 +152,9 @@ public class GestorEstudiantes {
                     throw new RuntimeException("Nota no válida");
                 }
 
-            } while(nota < 0.0 || nota > 10.0);
-        }catch (RuntimeException e){ System.out.println(e.getMessage());}
+            }catch (RuntimeException e){ System.out.println(e.getMessage());}
+
+        } while(nota < 0.0 || nota > 10.0);
 
         return nota;
     }
@@ -159,8 +162,8 @@ public class GestorEstudiantes {
     private static String pedirDni(){
         String dniString = null;
         boolean isValid = false;
-        char l;
-        long n;
+        char letraDni;
+        long numeroDni;
 
         do{
             try{
@@ -178,7 +181,7 @@ public class GestorEstudiantes {
                 }
 
                 //Verificar la letra
-                l = dniString.charAt(dniString.length() - 1);
+                letraDni = dniString.charAt(dniString.length() - 1);
                 if(Character.isLetter(1)){
                     throw new RuntimeException("La ultima posición debe incluir una letra");
                 }
@@ -187,14 +190,26 @@ public class GestorEstudiantes {
 
                 //Verificar el numero
                 try {
-                    n = Long.parseLong(numeroString);
+                    numeroDni = Long.parseLong(numeroString);
                 } catch (NumberFormatException e) {
                     throw new RuntimeException("La parte numérica del DNI no es válida");
                 }
 
                 //verificar rango
-                if (n < 1000000 || n > 99999999) {
+                if (numeroDni < 1000000 || numeroDni > 99999999) {
                     throw new RuntimeException("El número del DNI debe tener entre 7 y 8 cifras");
+                }
+
+                Character letraCalculada = Dni.letraValida(numeroDni);
+
+                if ((letraDni = Character.toUpperCase(letraDni)) != letraCalculada){
+                    throw new RuntimeException("La letra del DNI es incorrecta. Debería ser " + letraCalculada);
+                }
+
+                for (Estudiante e : listaEstudiantes) {
+                    if (e.getDni().toUpperCase().equals(dniString)) {
+                        throw new RuntimeException("Ya existe un estudiante con este DNI");
+                    }
                 }
 
                 isValid = true;
@@ -234,11 +249,30 @@ public class GestorEstudiantes {
         if (listaEstudiantes.isEmpty()) {
             System.out.println("No hay estudiantes registrados.");
         } else {
-            System.out.println("\n=== Lista de estudiantes ===");
+            System.out.println("\n=== Lista De Estudiantes ===\n");
             for (Estudiante e : listaEstudiantes) {
                 System.out.println(e);
             }
         }
+    }
+
+    private static void calcularMedia() {
+        double suma = 0;
+        double media = 0;
+
+        if (listaEstudiantes.isEmpty()) {
+            System.out.println("No hay estudiantes registrados.");
+            return;
+        }
+
+
+        for (Estudiante e : listaEstudiantes) {
+            suma += e.getNotaMedia();
+        }
+
+        media = suma / listaEstudiantes.size();
+        System.out.println("\n===== Nota Media General=====\n");
+        System.out.println("\n La media de las notas es: " + media + "\n");
     }
 
 }
